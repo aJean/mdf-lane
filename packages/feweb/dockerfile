@@ -1,0 +1,33 @@
+FROM nginx
+
+LABEL maintainer='qiaoyue'
+LABEL description="fe web container"
+
+ENV WEB_OWNER qiaoyue
+
+ENV WEB_MODE nginx
+
+RUN mkdir /feweb
+
+COPY config /feweb/config
+COPY logs /feweb/logs
+COPY www /feweb/www
+COPY config/nginx.conf /etc/nginx/nginx.conf
+
+# 要删除，不然会引两次
+RUN rm /feweb/config/nginx.conf
+
+# 时区同步
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# 日志映射
+RUN ln -sf /dev/stdout /feweb/logs/access.log
+RUN ln -sf /dev/stderr /feweb/logserror.log
+
+# 设置工作区
+WORKDIR /feweb
+
+EXPOSE 80
+
+ENTRYPOINT nginx -g "daemon off;"
+#ENTRYPOINT bin/bash

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  web1:
+    image: 'feweb'
+    ports:
+      - '8081:80'
+    environment:
+      FEWEB_PORT: 8081
+      FEWEB_AUTH: qiaoyue
+  web2:
+    image: 'feweb'
+    ports:
+      - '8082:80'
+    environment:
+        FEWEB_PORT: 8082
+        FEWEB_AUTH: xujiabin
