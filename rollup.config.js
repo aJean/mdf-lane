@@ -2,6 +2,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import postcss from 'rollup-plugin-postcss';
+import json from '@rollup/plugin-json';
 
 /**
  * @file 配置文件
@@ -26,6 +27,7 @@ export default {
       typescript: require('typescript')
     }),
     sourceMaps(),
-    postcss()
+    postcss(),
+    json()
   ]
 };

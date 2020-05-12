@@ -1,4 +1,5 @@
 import Cookie from './utils/cookie';
+import Config from '../config/contianer.json';
 
 /**
  * @file 控制台
@@ -42,6 +43,7 @@ const Panel = Object.create({
 
     if (auth !== newAuth) {
       Cookie.set('feweb-auth', newAuth);
+      Cookie.set('feweb-port', Config[newAuth]);
       location.reload();
     }
   },

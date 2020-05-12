@@ -107,6 +107,13 @@
   };
   api.defaults = {};
 
+  var qiaoyue = 8081;
+  var xujiabin = 8082;
+  var Config = {
+  	qiaoyue: qiaoyue,
+  	xujiabin: xujiabin
+  };
+
   /**
    * @file 控制台
    */
@@ -140,6 +147,7 @@
           }
           if (auth !== newAuth) {
               api.set('feweb-auth', newAuth);
+              api.set('feweb-port', Config[newAuth]);
               location.reload();
           }
       },
@@ -191,7 +199,7 @@
   styleInject(css_248z);
 
   /**
-   * @file schedulejs
+   * @file schedulejs - change cookie to proxy container
    */
   const node = Panel.create();
   document.body.appendChild(node);
