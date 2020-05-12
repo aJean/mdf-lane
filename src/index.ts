@@ -1,5 +1,9 @@
+import Panel from './panel';
 import './style.less';
 
-export default function() {
-  console.log('test');
-}
+/**
+ * @file schedulejs
+ */
+
+const node = Panel.create();
+document.body.appendChild(node);
