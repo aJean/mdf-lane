@@ -3,9 +3,11 @@ import typescript from 'rollup-plugin-typescript';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import postcss from 'rollup-plugin-postcss';
 import json from '@rollup/plugin-json';
+import angular from 'rollup-plugin-angular';
+import commonjs from 'rollup-plugin-commonjs';
 
 /**
- * @file 配置文件
+ * @file rollup 配置文件
  */
 
 export default {
@@ -17,8 +19,9 @@ export default {
     }
   ],
   plugins: [
+    commonjs(),
+    angular(),
     nodeResolve({
-      // use "jsnext:main" if possible
       // see https://github.com/rollup/rollup/wiki/jsnext:main
       jsnext: true
     }),

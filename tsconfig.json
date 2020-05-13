@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "esnext",
     "moduleResolution": "node",
     "jsx": "preserve",
@@ -7,12 +8,21 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "resolveJsonModule": true,
     "suppressImplicitAnyIndexErrors": true,
-    "declaration": true
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@@/*": [
+        "./*"
+      ]
+    },
   },
   "include": [
     "src"
