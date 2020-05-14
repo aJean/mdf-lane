@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import Cookie from '@/utils/cookie';
 import Config from '@@/config/contianer.json';
+import ConsoleService from '@/services/console.service';
 
 /**
  * @file 控制台
@@ -8,44 +9,51 @@ import Config from '@@/config/contianer.json';
 
 @Component({
   selector: '.app-schedulejs',
-  template: `<div [class]="consoleCls" (click)="onShow()">
+  template: `<div [ngClass]="classes" (click)="onShow()">
     <div class="schedulejs-console-title">选择环境</div>
-    <span class="schedulejs-console-close" (click)="onClose()">x</span>
-    <ul (click)="onEnvSelect()">
-      <li data-auth="qiaoyue">qiaoyue</li>
-      <li data-auth="xujiabin">xujiabin</li>
+    <span class="schedulejs-console-close" (click)="onClose($event)">x</span>
+    <ul (click)="onEnvSelect($event)">
+      <li *ngFor="let user of users" [attr.data-auth]="user.name" [class.schedulejs-console-select]="user.name == auth">
+        {{ user.name }}
+      </li>
     </ul>
   </div>`
 })
 export default class ConsoleComponent {
   select: Element;
-  consoleCls: Array<string>;
+  // 有权限的用户
+  auth: string;
+  users: Array<any>;
+  classes: Array<string>;
 
-  constructor(private el: ElementRef) {
-    this.consoleCls = ['schedulejs-console'];
+  constructor(private el: ElementRef, private consoleService: ConsoleService) {
+    this.auth =  Cookie.get('feweb-auth');
+    this.classes = ['schedulejs-console'];
+    this.users = this.consoleService.getUsers();
   }
 
   ngOnInit() {
-    const auth = Cookie.get('feweb-auth');
+    const selectNode = this.el.nativeElement.querySelector(`li[data-auth="${this.auth}"]`);
 
-    const ul = this.el.nativeElement;
-    console.log(ul);
+    if (selectNode) {
+      this.select = selectNode;
+    }
   }
 
-  onClose(e: Event) {
+  onClose(e) {
     e.stopImmediatePropagation();
-    this.consoleCls = ['schedulejs-console', 'schedulejs-console-hide'];
+    this.classes = ['schedulejs-console', 'schedulejs-console-hide'];
   }
 
   onShow() {
-    if (this.consoleCls.length > 1) {
+    if (this.classes.length <= 1) {
       return;
     }
 
-    this.consoleCls = ['schedulejs-console'];
+    this.classes = ['schedulejs-console'];
   }
 
-  onEnvSelect() {
+  onEnvSelect(e) {
     const auth = Cookie.get('feweb-auth');
     const newAuth = e.target.getAttribute('data-auth');
 
@@ -56,6 +64,7 @@ export default class ConsoleComponent {
     if (auth !== newAuth) {
       Cookie.set('feweb-auth', newAuth);
       Cookie.set('feweb-port', Config[newAuth]);
+      // 选择了新环境，刷新加载
       location.reload();
     }
   }

@@ -59947,31 +59947,54 @@
 		xujiabin: xujiabin
 	};
 
-	var _a$1;
+	/**
+	 * @file console data service
+	 */
+	let ConsoleService = class ConsoleService {
+	    constructor() {
+	        this.userList = [{ name: 'qiaoyue' }, { name: 'xujiabin' }];
+	    }
+	    getUsers() {
+	        return this.userList;
+	    }
+	};
+	ConsoleService = __decorate([
+	    Injectable({
+	        providedIn: 'root'
+	    }),
+	    __metadata("design:paramtypes", [])
+	], ConsoleService);
+	var ConsoleService$1 = ConsoleService;
+
+	var _a$1, _b;
 	/**
 	 * @file 控制台
 	 */
 	let ConsoleComponent = class ConsoleComponent {
-	    constructor(el) {
+	    constructor(el, consoleService) {
 	        this.el = el;
-	        this.consoleCls = ['schedulejs-console'];
+	        this.consoleService = consoleService;
+	        this.auth = api.get('feweb-auth');
+	        this.classes = ['schedulejs-console'];
+	        this.users = this.consoleService.getUsers();
 	    }
 	    ngOnInit() {
-	        const auth = api.get('feweb-auth');
-	        const ul = this.el.nativeElement;
-	        console.log(ul);
+	        const selectNode = this.el.nativeElement.querySelector(`li[data-auth="${this.auth}"]`);
+	        if (selectNode) {
+	            this.select = selectNode;
+	        }
 	    }
 	    onClose(e) {
 	        e.stopImmediatePropagation();
-	        this.consoleCls = ['schedulejs-console', 'schedulejs-console-hide'];
+	        this.classes = ['schedulejs-console', 'schedulejs-console-hide'];
 	    }
 	    onShow() {
-	        if (this.consoleCls.length > 1) {
+	        if (this.classes.length <= 1) {
 	            return;
 	        }
-	        this.consoleCls = ['schedulejs-console'];
+	        this.classes = ['schedulejs-console'];
 	    }
-	    onEnvSelect() {
+	    onEnvSelect(e) {
 	        const auth = api.get('feweb-auth');
 	        const newAuth = e.target.getAttribute('data-auth');
 	        if (!newAuth) {
@@ -59980,6 +60003,7 @@
 	        if (auth !== newAuth) {
 	            api.set('feweb-auth', newAuth);
 	            api.set('feweb-port', Config[newAuth]);
+	            // 选择了新环境，刷新加载
 	            location.reload();
 	        }
 	    }
@@ -59987,16 +60011,17 @@
 	ConsoleComponent = __decorate([
 	    Component({
 	        selector: '.app-schedulejs',
-	        template: `<div [class]="consoleCls" (click)="onShow()">
+	        template: `<div [ngClass]="classes" (click)="onShow()">
     <div class="schedulejs-console-title">选择环境</div>
-    <span class="schedulejs-console-close" (click)="onClose()">x</span>
-    <ul (click)="onEnvSelect()">
-      <li data-auth="qiaoyue">qiaoyue</li>
-      <li data-auth="xujiabin">xujiabin</li>
+    <span class="schedulejs-console-close" (click)="onClose($event)">x</span>
+    <ul (click)="onEnvSelect($event)">
+      <li *ngFor="let user of users" [attr.data-auth]="user.name" [class.schedulejs-console-select]="user.name == auth">
+        {{ user.name }}
+      </li>
     </ul>
   </div>`
 	    }),
-	    __metadata("design:paramtypes", [typeof (_a$1 = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a$1 : Object])
+	    __metadata("design:paramtypes", [typeof (_a$1 = typeof ElementRef !== "undefined" && ElementRef) === "function" ? _a$1 : Object, typeof (_b = typeof ConsoleService$1 !== "undefined" && ConsoleService$1) === "function" ? _b : Object])
 	], ConsoleComponent);
 	var ConsoleComponent$1 = ConsoleComponent;
 

@@ -3,6 +3,7 @@ version: '3'
 services:
   web1:
     image: 'feweb'
+    container_name: 'feweb-qy'
     ports:
       - '8081:80'
     environment:
@@ -10,8 +11,9 @@ services:
       FEWEB_AUTH: qiaoyue
   web2:
     image: 'feweb'
+    container_name: 'feweb-xjb'
     ports:
       - '8082:80'
     environment:
-        FEWEB_PORT: 8082
-        FEWEB_AUTH: xujiabin
+      FEWEB_PORT: 8082
+      FEWEB_AUTH: xujiabin
