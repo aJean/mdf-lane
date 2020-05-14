@@ -23,6 +23,6 @@ export default class ConsoleService {
    * 获取容器环境信息
    */
   getEnv() {
-    return this.http.get('/feweb/env.json', { responseType: 'json' });
+    return this.http.get(`/feweb/env.json?_=${Date.now()}`);
   }
 }
