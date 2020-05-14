@@ -1,7 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
+import ConsoleService from '@/services/console.service';
 import Cookie from '@/utils/cookie';
 import Config from '@@/config/contianer.json';
-import ConsoleService from '@/services/console.service';
 
 /**
  * @file 控制台
@@ -9,27 +9,38 @@ import ConsoleService from '@/services/console.service';
 
 @Component({
   selector: '.app-schedulejs',
-  template: `<div [ngClass]="classes" (click)="onShow()">
-    <div class="schedulejs-console-title">选择环境</div>
-    <span class="schedulejs-console-close" (click)="onClose($event)">x</span>
-    <ul (click)="onEnvSelect($event)">
-      <li *ngFor="let user of users" [attr.data-auth]="user.name" [class.schedulejs-console-select]="user.name == auth">
-        {{ user.name }}
-      </li>
-    </ul>
-  </div>`
+  template: `<mat-expansion-panel class="schedulejs-console" [expanded]="true" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>cloud_circle</mat-icon>Shedulejs - 控制台
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>Env: {{ env.auth }} - {{ env.port }}</mat-toolbar-row>
+    </mat-toolbar>
+    <mat-divider></mat-divider>
+    <mat-selection-list (selectionChange)="onEnvSelect($event)">
+      <mat-list-option *ngFor="let user of users" [value]="user.name"
+        [selected]="user.name == auth">
+        <p matLine>{{ user.name }}</p>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>`
 })
 export default class ConsoleComponent {
   select: Element;
   // 有权限的用户
   auth: string;
   users: Array<any>;
-  classes: Array<string>;
+  env: Object;
 
   constructor(private el: ElementRef, private consoleService: ConsoleService) {
-    this.auth =  Cookie.get('feweb-auth');
-    this.classes = ['schedulejs-console'];
+    this.auth = Cookie.get('feweb-auth');
     this.users = this.consoleService.getUsers();
+
+    consoleService.getEnv().subscribe((data) => {
+      this.env = data;
+    });
   }
 
   ngOnInit() {
@@ -40,22 +51,15 @@ export default class ConsoleComponent {
     }
   }
 
-  onClose(e) {
-    e.stopImmediatePropagation();
-    this.classes = ['schedulejs-console', 'schedulejs-console-hide'];
-  }
-
-  onShow() {
-    if (this.classes.length <= 1) {
-      return;
-    }
-
-    this.classes = ['schedulejs-console'];
-  }
-
+  /**
+   * 真 tm 难用
+   */
   onEnvSelect(e) {
+    e.option.selectionList.deselectAll();
+    e.option.selected = true;
+
     const auth = Cookie.get('feweb-auth');
-    const newAuth = e.target.getAttribute('data-auth');
+    const newAuth = e.option.value;
 
     if (!newAuth) {
       return;

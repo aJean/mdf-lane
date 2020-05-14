@@ -2,7 +2,8 @@ import 'core-js/features/reflect'; // injector needs reflect
 import 'zone.js/dist/zone';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import AppModule from './components/app.module';
-import './style.less';
+import './styles/theme.less';
+import './styles/style.less';
 
 /**
  * @file schedulejs - change cookie to proxy container
