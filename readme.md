@@ -14,13 +14,14 @@
 - constrol shells
 
 #### server
-- proxy
-- file server
-- log server
+- nginx proxy
+- file server，接收项目文件
+- log server，日志采集
 
 #### dev
-- git hooks、git lab ci
-- http push，文件远程上传
+两个方案：基于 ci/cd 自动化构建，通过 cli cmd 自主上传
+- 自动化，git hooks、git lab ci、git runner（需要申请资源）
+- cmd 文件远程上传，scp （简单）、http push （node 封装）
 - umi plugins
 
 #### ui
