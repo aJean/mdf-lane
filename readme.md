@@ -1,6 +1,9 @@
 多环境提测方案
 结合 git lab ci 实现多容器差异化部署，方便开发测试
 
+### work flow
+![](https://raw.githubusercontent.com/aJean/daily-activities/master/imgs/%E5%AE%B9%E5%99%A8/schedulejs-flow.png)
+
 ### roadmap
 主要分为四块内容
 
