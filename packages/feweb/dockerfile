@@ -6,6 +6,11 @@ LABEL description="fe web container"
 ENV WEB_OWNER qiaoyue
 ENV WEB_MODE nginx
 
+# 安装 ssh
+RUN yum install openssh-server -y
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+
 # 宿主项目移动
 RUN mkdir /feweb
 COPY bootstrap.sh /feweb
