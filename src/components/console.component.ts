@@ -32,7 +32,7 @@ export default class ConsoleComponent {
   // 有权限的用户
   auth: string;
   users: Array<any>;
-  env: Object;
+  env: Object = {};
 
   constructor(private el: ElementRef, private consoleService: ConsoleService) {
     this.auth = Cookie.get('feweb-auth');
