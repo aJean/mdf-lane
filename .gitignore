@@ -4,7 +4,6 @@
 *.swo
 .npm
 node_modules
-logs
 *.log
 npm-debug.log*
 issue.info
