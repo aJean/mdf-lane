@@ -10,16 +10,17 @@ ENV WEB_MODE nginx
 RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get clean
 RUN apt-get update
-RUN apt-get install openssh-server
-RUN cat /home/master/.ssh/id_rsa.pub > /feweb/.ssh/authorized_keys
+RUN apt-get install -y openssh-server vim
 
 # 宿主项目移动
-RUN mkdir /feweb
+RUN mkdir -p /feweb /root/.ssh /run/sshd  
 COPY bootstrap.sh /feweb
+COPY authorized_keys /root/.ssh
+COPY config/nginx.conf /etc/nginx/nginx.conf
+
 COPY config /feweb/config
 COPY logs /feweb/logs
 COPY www /feweb/www
-COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # 要删除不然会引两次
 RUN rm /feweb/config/nginx.conf
@@ -34,7 +35,7 @@ RUN ln -sf /dev/stderr /feweb/logs/error.log
 # 设置工作区
 WORKDIR /feweb
 
-EXPOSE 80
+EXPOSE 80 22
 
 ENTRYPOINT ["sh", "/feweb/bootstrap.sh"]
 #ENTRYPOINT bin/bash

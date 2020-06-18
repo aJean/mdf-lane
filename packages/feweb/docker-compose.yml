@@ -6,6 +6,7 @@ services:
     container_name: 'feweb-qy'
     ports:
       - '8081:80'
+      - '2122:22'
     environment:
       FEWEB_PORT: 8081
       FEWEB_AUTH: qiaoyue
@@ -21,6 +22,7 @@ services:
     container_name: 'feweb-xjb'
     ports:
       - '8082:80'
+      - '2222:22'
     environment:
       FEWEB_PORT: 8082
       FEWEB_AUTH: xujiabin
