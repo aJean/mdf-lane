@@ -1,5 +1,9 @@
-多环境提测方案
-结合 git lab ci 实现多容器差异化部署，方便开发测试
+前端多环境方案
+结合 git lab ci 实现多容器差异化部署
+- 快速开发环境分配
+- 流水线流程管控
+- 控制面板切换环境与服务
+- 容器自动化管理
 
 ### work flow
 ![](https://raw.githubusercontent.com/aJean/daily-activities/master/imgs/%E5%AE%B9%E5%99%A8/schedulejs-flow.png)
