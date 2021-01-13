@@ -1,0 +1,26 @@
+version: "3"
+
+networks:
+  qy:
+
+services:
+  loki:
+    container_name: loki
+    image: grafana/loki:2.0.0
+    ports:
+      - "3100:3100"
+    volumes:
+      - /root/loki:/etc/loki
+    command: -config.file=/etc/loki/loki.yaml
+    networks:
+      - qy
+
+  prom:
+    container_name: prom
+    image: grafana/promtail:2.0.0
+    volumes:
+      - /alidata:/var/log
+      - /root/loki:/etc/promtail
+    command: -config.file=/etc/promtail/promtail.yaml
+    networks:
+      - qy
