@@ -1,0 +1,15 @@
+{
+  "name": "mdf-node",
+  "version": "0.0.0",
+  "description": "mdfjs node container",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir server && cp -r src/* server/"
+  },
+  "repository": "medgit@git.medlinker.com:libs/mdf-node.git",
+  "author": "qy",
+  "license": "MIT",
+  "dependencies": {
+    "dayjs": "^1.10.4"
+  }
+}
