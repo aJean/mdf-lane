@@ -11,7 +11,7 @@
   <script>
     const importObject = {
       imports: {
-        imported_func: function(arg) {
+        write: function(arg) {
           console.log(arg);
         }
       }
@@ -23,7 +23,7 @@
       WebAssembly.instantiate(bytes, importObject)
     ).then(result => {
       console.log(result.instance);
-      result.instance.exports.exported_func();
+      result.instance.exports.write();
     });
   </script>
 </body>
