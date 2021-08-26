@@ -9,8 +9,10 @@
 <body>
   <h2>WASM test</h2>
   <script>
+    const global = new WebAssembly.Global({value:'i32', mutable:true}, 0);
     const importObject = {
       imports: {
+        global,
         write: function(arg) {
           console.log(arg);
         }
@@ -22,8 +24,12 @@
     ).then(bytes =>
       WebAssembly.instantiate(bytes, importObject)
     ).then(result => {
-      console.log(result.instance);
-      result.instance.exports.write();
+      const { add, write } = result.instance.exports;
+      write();
+      // 写入 global
+      add(123);
+
+      console.log(global.value);
     });
   </script>
 </body>
